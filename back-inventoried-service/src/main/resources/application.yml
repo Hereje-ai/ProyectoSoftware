@@ -1,0 +1,13 @@
+server:
+  port: 8085
+application:
+  request:
+    mappings: /inventoried-services
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Inventoried
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
