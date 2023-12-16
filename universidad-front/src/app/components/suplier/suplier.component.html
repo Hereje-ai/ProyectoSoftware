@@ -1,0 +1,137 @@
+<p-toast key="tst"></p-toast>
+<div class="grid">
+	<div class="col-12 md:col-6">
+			<div class="formgroup-inline">
+				<button pButton label="Crear" (click)="showDisplayCreate()"></button>
+			</div>
+            
+	</div>
+
+	<div class="col-12">
+			<h5>proveedores</h5>
+			<p-table #dt1 [value]="lstSuplier" dataKey="id" [rows]="10"  [rowHover]="true" styleClass="p-datatable-gridlines"  
+			[globalFilterFields]="[]" responsiveLayout="scroll" scrollHeight="800px" responsiveLayout="scroll" >
+				<ng-template pTemplate="header">
+					<tr>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Nombre
+								<p-columnFilter type="text" field="name" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Dirección
+								<p-columnFilter type="text" field="address" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Contacto
+								<p-columnFilter type="text" field="telephone" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Correo
+								<p-columnFilter type="text" field="email" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+
+                        <th>
+							<div class="flex justify-content-between align-items-center">
+								Nit
+								<p-columnFilter type="text" field="nit" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Opciones
+							</div>
+						</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-suplier>
+					<tr>
+						<td>
+							{{suplier.name}}
+						</td>
+						<td>
+							{{suplier.address}}
+						</td>
+						<td>
+							{{suplier.telephone}}
+						</td>
+						<td>
+							{{suplier.email}}
+						</td>
+                        <td>
+							{{suplier.nit}}
+						</td>
+			
+						<td>
+                        <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-secundary p-button-text" (click)="showDisplayEdit(suplier)"></p-button>
+						</td>
+						
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No customers found.</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="loadingbody">
+					<tr>
+						<td colspan="8">Loading customers data. Please wait.</td>
+					</tr>
+				</ng-template>
+    		</p-table>
+
+	</div>
+	<form #SuplierForm [formGroup]="suplierForm">
+		<p-dialog header="Gestión Proveedores" [(visible)]="displayCreate" [modal]="true" showEffect="fade" [style]="{width: '500px'}" [breakpoints]="{'960px': '75vw'}">
+			<div class="col-12 md:col-6">
+				<div class="card p-fluid">
+					<p-messages #messages severity="error" text="Field is required" ></p-messages>
+					<div class="field grid">
+						<label htmlFor="name" class="col-12 mb-2 md:col-2 md:mb-0">Nombre</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="name" type="text" formControlName="name"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="address" class="col-12 mb-2 md:col-2 md:mb-0">Dirección</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="address" type="text" formControlName="address"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="telephone" class="col-12 mb-2 md:col-2 md:mb-0">Contacto</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="telephone" type="text" formControlName="telephone"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="email" class="col-12 mb-2 md:col-2 md:mb-0">Correo</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="email" type="text" formControlName="email"/>
+						</div>
+					</div>
+                    <div class="field grid">
+						<label htmlFor="nit" class="col-12 mb-2 md:col-2 md:mb-0">Nit</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="nit" type="text" formControlName="nit"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ng-template pTemplate="footer">
+					<button *ngIf="edit" pButton icon="pi pi-check" label="Editar" styleClass="p-button-secundary" (click)="confirmarEditSuplier()"></button>
+					<button *ngIf="!edit" pButton icon="pi pi-check" label="Guardar" styleClass="p-button-secundary" (click)="confirmarCreateSuplier()"></button>
+			</ng-template>
+		</p-dialog>
+		</form>
+</div>
+<p-confirmDialog key="createSuplier"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+<p-confirmDialog key="editarSuplier"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+

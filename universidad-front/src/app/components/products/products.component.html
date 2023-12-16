@@ -1,0 +1,153 @@
+<p-toast key="tst"></p-toast>
+<div class="grid">
+	<div class="col-12 md:col-6">
+			<div class="formgroup-inline">
+				<button pButton label="Crear" (click)="showDisplayCreate()"></button>
+			</div>
+            
+	</div>
+
+	<div class="col-12">
+			<h5>Productos</h5>
+			<p-table #dt1 [value]="lstProducts" dataKey="id" [rows]="10"  [rowHover]="true" styleClass="p-datatable-gridlines"  
+			[globalFilterFields]="[]" responsiveLayout="scroll" scrollHeight="800px" responsiveLayout="scroll" >
+				<ng-template pTemplate="header">
+					<tr>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Nombre
+								<p-columnFilter type="text" field="name" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Description
+								<p-columnFilter type="text" field="Description" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Precio
+								<p-columnFilter type="text" field="price" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Cantidad disponible
+								<p-columnFilter type="text" field="quantityAvailable" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Categoria
+								<p-columnFilter type="text" field="categoryId" display="menu" currency="Search"></p-columnFilter>
+							</div>
+						</th>
+						
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Proveedor
+								<p-columnFilter type="text" field="suplierId" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Opciones
+							</div>
+						</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-product>
+					<tr>
+						<td>
+							{{product.name}}
+						</td>
+						<td>
+							{{product.description}}
+						</td>
+						<td>
+							{{product.price}}
+						</td>
+						<td>
+							{{product.quantityAvailable}}
+						</td>
+						<td>
+							{{getCategoryForm(product.categoryId)}}
+						</td>
+						<td>
+							{{getSuplierForm(product.suplierId)}}
+						</td>
+			
+						<td>
+                        <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-secundary p-button-text" (click)="showDisplayEdit(product)"></p-button>
+						</td>
+						
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No customers found.</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="loadingbody">
+					<tr>
+						<td colspan="8">Loading customers data. Please wait.</td>
+					</tr>
+				</ng-template>
+    		</p-table>
+
+	</div>
+	<form #ProductForm [formGroup]="productForm">
+		<p-dialog header="Gestión Productos" [(visible)]="displayCreate" [modal]="true" showEffect="fade" [style]="{width: '500px'}" [breakpoints]="{'960px': '75vw'}">
+			<div class="col-12 md:col-6">
+				<div class="card p-fluid">
+					<p-messages #messages severity="error" text="Field is required" ></p-messages>
+					<div class="field grid">
+						<label htmlFor="name" class="col-12 mb-2 md:col-2 md:mb-0">Nombre</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="name" type="text" formControlName="name"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="description" class="col-12 mb-2 md:col-2 md:mb-0">Descripción</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="description" type="text" formControlName="description"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="price" class="col-12 mb-2 md:col-2 md:mb-0">Precio</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="price" type="text" formControlName="price"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="quantityAvailable" class="col-12 mb-2 md:col-2 md:mb-0">Cantidad</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="quantityAvailable" type="text" formControlName="quantityAvailable"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="categoryId" class="col-12 mb-2 md:col-2 md:mb-0">Categoria</label>
+						<div class="col-12 md:col-10">
+							<p-dropdown [options]="lstCategory" optionLabel="name" optionValue="id"
+							[(ngModel)]="idCategory" [ngModelOptions]="{standalone: true}" id="idCategory"></p-dropdown>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="suplierId" class="col-12 mb-2 md:col-2 md:mb-0">Proveedor</label>
+						<div class="col-12 md:col-10">
+							<p-dropdown [options]="lstSuplier" optionLabel="name" optionValue="id"
+							[(ngModel)]="idSuplier" [ngModelOptions]="{standalone: true}" id="idSuplier"></p-dropdown>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ng-template pTemplate="footer">
+					<button *ngIf="edit" pButton icon="pi pi-check" label="Editar" styleClass="p-button-secundary" (click)="confirmarEditProduct()"></button>
+					<button *ngIf="!edit" pButton icon="pi pi-check" label="Guardar" styleClass="p-button-secundary" (click)="confirmarCreateProduct()"></button>
+			</ng-template>
+		</p-dialog>
+		</form>
+</div>
+<p-confirmDialog key="createProduct"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+<p-confirmDialog key="editarProduct"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>

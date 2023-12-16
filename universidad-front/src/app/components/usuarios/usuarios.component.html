@@ -1,0 +1,184 @@
+<p-toast key="tst"></p-toast>
+<div class="grid">
+	<div class="col-12 md:col-6">
+			<div class="formgroup-inline">
+				<button pButton label="Crear" (click)="showDisplayCreate()"></button>
+			</div>
+	</div>
+
+	<div class="col-12">
+			<h5>Usuarios Admin</h5>
+			<p-table #dt1 [value]="lstUsuarios" dataKey="id" [rows]="10"  [rowHover]="true" styleClass="p-datatable-gridlines"  
+			[globalFilterFields]="[]" responsiveLayout="scroll" scrollHeight="800px" responsiveLayout="scroll" >
+				<ng-template pTemplate="header">
+					<tr>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Primer Nombre
+								<p-columnFilter type="text" field="firstName" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Segundo Nombre
+								<p-columnFilter type="text" field="secondName" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Apellidos
+								<p-columnFilter type="text" field="lastName" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Numero documento
+								<p-columnFilter type="text" field="documentNumber" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Correo
+								<p-columnFilter type="text" field="email" display="menu" currency="Search"></p-columnFilter>
+							</div>
+						</th>
+						
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Telefono
+								<p-columnFilter type="text" field="telephone" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Dirección
+								<p-columnFilter type="text" field="address" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Tipo usuario
+								<p-columnFilter type="text" field="typeUser" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Opciones
+							</div>
+						</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-usua>
+					<tr>
+						<td>
+							{{usua.firstName}}
+						</td>
+						<td>
+							{{usua.secondName}}
+						</td>
+						<td>
+							{{usua.lastName}}
+						</td>
+						<td>
+							{{usua.documentNumber}}
+						</td>
+						<td>
+							{{usua.email}}
+						</td>
+						<td>
+							{{usua.telephone}}
+						</td>
+						<td>
+							{{usua.address}}
+						</td>
+						<td>
+							{{typeUserSelect(usua.userType)}}
+						</td>
+						<td>
+                        <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-secundary p-button-text" (click)="showDisplayEdit(usua)"></p-button>
+						</td>
+						
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No customers found.</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="loadingbody">
+					<tr>
+						<td colspan="8">Loading customers data. Please wait.</td>
+					</tr>
+				</ng-template>
+    		</p-table>
+
+	</div>
+	<form #UserForm [formGroup]="userForm">
+		<p-dialog header="Gestión Usuarios" [(visible)]="displayCreate" [modal]="true" showEffect="fade" [style]="{width: '500px'}" [breakpoints]="{'960px': '75vw'}">
+			<div class="col-12 md:col-6">
+				<div class="card p-fluid">
+					<p-messages #messages severity="error" text="Field is required" ></p-messages>
+					<div class="field grid">
+						<label htmlFor="firstName" class="col-12 mb-2 md:col-2 md:mb-0">Primer Nombre</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="firstName" type="text" formControlName="firstName"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="secondName" class="col-12 mb-2 md:col-2 md:mb-0">Segundo Nombre</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="secondName" type="text" formControlName="secondName"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="lastName" class="col-12 mb-2 md:col-2 md:mb-0">Apellidos</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="lastName" type="text" formControlName="lastName"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="documentNumber" class="col-12 mb-2 md:col-2 md:mb-0"># Documento</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="documentNumber" type="text" formControlName="documentNumber"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="email" class="col-12 mb-2 md:col-2 md:mb-0">Correo</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="email" type="text" formControlName="email"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="telephone" class="col-12 mb-2 md:col-2 md:mb-0">Teléfono</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="telephone" type="text" formControlName="telephone"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="address" class="col-12 mb-2 md:col-2 md:mb-0">Dirección</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="address" type="text" formControlName="address"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="userType" class="col-12 mb-2 md:col-2 md:mb-0">Tipo usuario</label>
+						<div class="col-12 md:col-10">
+							<p-dropdown [options]="typeUserList" optionLabel="name" optionValue="value"
+							[(ngModel)]="typeUser" [ngModelOptions]="{standalone: true}" id="userType"></p-dropdown>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ng-template pTemplate="footer">
+					<button *ngIf="edit" pButton icon="pi pi-check" label="Editar" styleClass="p-button-secundary" (click)="confirmarEditUser()"></button>
+					<button *ngIf="!edit" pButton icon="pi pi-check" label="Guardar" styleClass="p-button-secundary" (click)="confirmarCreateUser()"></button>
+			</ng-template>
+		</p-dialog>
+		</form>
+</div>
+<p-confirmDialog key="createUser"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+<p-confirmDialog key="editUser"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+
+|

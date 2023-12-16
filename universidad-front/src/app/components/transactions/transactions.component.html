@@ -1,0 +1,139 @@
+<p-toast key="tst"></p-toast>
+<div class="grid">
+	<div class="col-12 md:col-6">
+			<div class="formgroup-inline">
+				<button pButton label="Crear" (click)="showDisplayCreate()"></button>
+			</div>
+            
+	</div>
+
+	<div class="col-12">
+			<h5>Transacciones</h5>
+			<p-table #dt1 [value]="lstTransaction" dataKey="id" [rows]="10"  [rowHover]="true" styleClass="p-datatable-gridlines"  
+			[globalFilterFields]="[]" responsiveLayout="scroll" scrollHeight="800px" responsiveLayout="scroll" >
+				<ng-template pTemplate="header">
+					<tr>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Documento Usuario
+								<p-columnFilter type="text" field="documentNumber" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Tipo de transacción
+								<p-columnFilter type="text" field="transactionTypeId" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Cantidad
+								<p-columnFilter type="text" field="amount" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Nombre de producto
+								<p-columnFilter type="text" field="productId" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+
+                        <th>
+							<div class="flex justify-content-between align-items-center">
+								Descripcion
+								<p-columnFilter type="text" field="description" display="menu" placeholder="Search"></p-columnFilter>
+							</div>
+						</th>
+						<th>
+							<div class="flex justify-content-between align-items-center">
+								Opciones
+							</div>
+						</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-trans>
+					<tr>
+						<td>
+							{{trans.documentNumber}}
+						</td>
+						<td>
+							{{getTypeTransaction(trans.transactionTypeId)}}
+						</td>
+						<td>
+							{{trans.amount}}
+						</td>
+						<td>
+							{{getproductName(trans.productId)}}
+						</td>
+                        <td>
+							{{trans.description}}
+						</td>
+			
+						<td>
+                        <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-secundary p-button-text" (click)="showDisplayEdit(trans)"></p-button>
+						</td>
+						
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No customers found.</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="loadingbody">
+					<tr>
+						<td colspan="8">Loading customers data. Please wait.</td>
+					</tr>
+				</ng-template>
+    		</p-table>
+
+	</div>
+	<form #TransactionForm [formGroup]="transactionForm">
+		<p-dialog header="Transacciones" [(visible)]="displayCreate" [modal]="true" showEffect="fade" [style]="{width: '500px'}" [breakpoints]="{'960px': '75vw'}">
+			<div class="col-12 md:col-6">
+				<div class="card p-fluid">
+					<p-messages #messages severity="error" text="Field is required" ></p-messages>
+					<div class="field grid">
+						<label htmlFor="transactionTypeId" class="col-12 mb-2 md:col-2 md:mb-0">Tipo de transaccion</label>
+						<div class="col-12 md:col-10">
+							<p-dropdown [options]="lstTypeTransaction" optionLabel="name" optionValue="value"
+                            [(ngModel)]="transactionTypeId" [ngModelOptions]="{standalone: true}" id="transactionTypeId"></p-dropdown>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="amount" class="col-12 mb-2 md:col-2 md:mb-0">Cantidad</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="amount" type="number" formControlName="amount"/>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="productId" class="col-12 mb-2 md:col-2 md:mb-0">Producto</label>
+						<div class="col-12 md:col-10">
+							<p-dropdown [options]="lstProduct" optionLabel="name" optionValue="id"
+							[(ngModel)]="productId" [ngModelOptions]="{standalone: true}" id="productId"></p-dropdown>
+						</div>
+					</div>
+					<div class="field grid">
+						<label htmlFor="documentNumber" class="col-12 mb-2 md:col-2 md:mb-0">Usuario</label>
+						<div class="col-12 md:col-10">
+							<p-dropdown [options]="lstUser" optionLabel="documentNumber" optionValue="documentNumber"
+                            [(ngModel)]="documentNumber" [ngModelOptions]="{standalone: true}" id="documentNumber" [filter]="true" ></p-dropdown>
+						</div>
+					</div>
+                    <div class="field grid">
+						<label htmlFor="description" class="col-12 mb-2 md:col-2 md:mb-0">Descripción</label>
+						<div class="col-12 md:col-10">
+							<input pInputText id="description" type="text" formControlName="description"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ng-template pTemplate="footer">
+					<button *ngIf="edit" pButton icon="pi pi-check" label="Editar" styleClass="p-button-secundary" (click)="confirmarEditTransaction()"></button>
+					<button *ngIf="!edit" pButton icon="pi pi-check" label="Guardar" styleClass="p-button-secundary" (click)="confirmarCreateTransaction()"></button>
+			</ng-template>
+		</p-dialog>
+		</form>
+</div>
+<p-confirmDialog key="createTrasaction"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+<p-confirmDialog key="editarTransaction"  rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
